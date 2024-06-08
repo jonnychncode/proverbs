@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Devotion</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .date-container, .proverbs-container, .audio-container {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        audio {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Devotion</h1>
+        <div class="date-container">
+            <label for="date">Today is:</label>
+            <select id="date" onchange="updateProverbs()">
+                <!-- Options will be populated by JavaScript -->
+            </select>
+        </div>
+        <div class="proverbs-container">
+            <label for="proverbs">Proverbs:</label>
+            <select id="proverbs" readonly>
+                <!-- Options will be populated by JavaScript -->
+            </select>
+        </div>
+        <div class="audio-container">
+            <label for="audio">Audio:</label>
+            <audio id="audio" controls>
+                <source id="audioSource" src="" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const today = new Date();
+            const dateSelect = document.getElementById('date');
+            const proverbsSelect = document.getElementById('proverbs');
+
+            // Populate date dropdown
+            for (let i = 1; i <= 31; i++) {
+                const dateOption = new Option(`Day ${i}`, i);
+                dateSelect.add(dateOption);
+            }
+
+            // Set today's date in the dropdown
+            dateSelect.value = today.getDate();
+
+            // Populate Proverbs dropdown
+            for (let i = 1; i <= 31; i++) {
+                const proverbsOption = new Option(`Chapter ${i}`, i);
+                proverbsSelect.add(proverbsOption);
+            }
+
+            // Set the corresponding chapter of Proverbs
+            proverbsSelect.value = today.getDate();
+
+            // Set the audio source
+            updateAudioSource(today.getDate());
+
+            // Load the audio
+            const audio = document.getElementById('audio');
+            audio.load();
+        });
+
+        function updateProverbs() {
+            const dateSelect = document.getElementById('date');
+            const proverbsSelect = document.getElementById('proverbs');
+            const selectedDay = dateSelect.value;
+
+            // Set the corresponding chapter of Proverbs
+            proverbsSelect.value = selectedDay;
+
+            // Update the audio source
+            updateAudioSource(selectedDay);
+        }
+
+        function updateAudioSource(day) {
+            const audioSource = document.getElementById('audioSource');
+            audioSource.src = `YOUR_AUDIO_URL/Proverbs${day}.mp3`;
+
+            // Load the audio
+            const audio = document.getElementById('audio');
+            audio.load();
+        }
+    </script>
+</body>
+</html>
